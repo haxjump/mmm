@@ -1,0 +1,22 @@
+[package]
+name = "muta-keypair"
+version = "0.2.1"
+authors = ["Muta Dev <muta@nervos.org>"]
+edition = "2018"
+include = ["Cargo.toml", "src/*"]
+repository = "https://github.com/nervosnetwork/muta/tree/master/devtools/keypair"
+license = "MIT"
+description = "A tool to generate keypairs for muta framework"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "2.33", features = ["yaml"] }
+hex = "0.4"
+ophelia-bls-amcl = "0.3"
+ophelia = "0.3"
+protocol = { path = "../../protocol", package = "muta-protocol" }
+rand = "0.7"
+serde = {version = "1.0", features = ["derive"]}
+serde_json = "1.0"
+tentacle-secio = "0.5"

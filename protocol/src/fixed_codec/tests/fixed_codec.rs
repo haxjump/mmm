@@ -1,0 +1,117 @@
+extern crate test;
+
+use test::Bencher;
+
+use crate::fixed_codec::FixedCodec;
+use crate::types;
+
+use super::*;
+
+macro_rules! test_eq {
+    ($category: ident, $r#type: ident, $mock_func: ident $(, $arg: expr)*) => {
+        let before_val = $mock_func($($arg),*);
+        let rlp_bytes = before_val.encode_fixed().unwrap();
+        let after_val: types::$category::$r#type = <_>::decode_fixed(rlp_bytes.clone()).unwrap();
+        assert_eq!(before_val, after_val);
+    };
+}
+
+#[test]
+fn test_fixed_codec_primitive() {
+    let bs = true.encode_fixed().unwrap();
+    assert_eq!(<bool as FixedCodec>::decode_fixed(bs).unwrap(), true);
+
+    let bs = false.encode_fixed().unwrap();
+    assert_eq!(<bool as FixedCodec>::decode_fixed(bs).unwrap(), false);
+
+    let bs = 0u8.encode_fixed().unwrap();
+    assert_eq!(<u8 as FixedCodec>::decode_fixed(bs).unwrap(), 0u8);
+
+    let bs = 8u8.encode_fixed().unwrap();
+    assert_eq!(<u8 as FixedCodec>::decode_fixed(bs).unwrap(), 8u8);
+
+    let bs = 8u32.encode_fixed().unwrap();
+    assert_eq!(<u32 as FixedCodec>::decode_fixed(bs).unwrap(), 8u32);
+
+    let bs = 8u64.encode_fixed().unwrap();
+    assert_eq!(<u64 as FixedCodec>::decode_fixed(bs).unwrap(), 8u64);
+
+    let bs = 8u128.encode_fixed().unwrap();
+    assert_eq!(<u64 as FixedCodec>::decode_fixed(bs).unwrap(), 8u64);
+
+    let bs = "test".to_owned().encode_fixed().unwrap();
+    assert_eq!(
+        <String as FixedCodec>::decode_fixed(bs).unwrap(),
+        "test".to_owned()
+    );
+}
+
+#[test]
+fn test_fixed_codec() {
+    test_eq!(primitive, Hash, mock_hash);
+
+    test_eq!(transaction, RawTransaction, mock_raw_tx);
+    test_eq!(transaction, SignedTransaction, mock_sign_tx);
+
+    test_eq!(block, Proof, mock_proof);
+    test_eq!(block, BlockHeader, mock_block_header);
+    test_eq!(block, Block, mock_block, 33);
+    test_eq!(block, Pill, mock_pill, 22, 33);
+    test_eq!(block, Validator, mock_validator);
+
+    test_eq!(receipt, Receipt, mock_receipt);
+    test_eq!(receipt, Receipt, mock_receipt);
+    test_eq!(receipt, Receipt, mock_receipt);
+    test_eq!(receipt, Receipt, mock_receipt);
+}
+
+#[test]
+fn test_signed_tx_serialize_size() {
+    let txs: Vec<Bytes> = (0..50_000)
+        .map(|_| mock_sign_tx().encode_fixed().unwrap())
+        .collect();
+    let size = &txs.iter().fold(0, |acc, x| acc + x.len());
+    println!("1 tx size {:?}", txs[1].len());
+    println!("50_000 tx size {:?}", size);
+}
+
+#[bench]
+fn bench_signed_tx_serialize(b: &mut Bencher) {
+    let txs: Vec<SignedTransaction> = (0..50_000).map(|_| mock_sign_tx()).collect();
+    b.iter(|| {
+        txs.iter().for_each(|signed_tx| {
+            signed_tx.encode_fixed().unwrap();
+        });
+    });
+}
+
+#[bench]
+fn bench_signed_tx_deserialize(b: &mut Bencher) {
+    let txs: Vec<Bytes> = (0..50_000)
+        .map(|_| mock_sign_tx().encode_fixed().unwrap())
+        .collect();
+
+    b.iter(|| {
+        txs.iter().for_each(|signed_tx| {
+            SignedTransaction::decode_fixed(signed_tx.clone()).unwrap();
+        });
+    });
+}
+
+#[bench]
+fn bench_block_serialize(b: &mut Bencher) {
+    let block = mock_block(50_000);
+
+    b.iter(|| {
+        block.encode_fixed().unwrap();
+    });
+}
+
+#[bench]
+fn bench_block_deserialize(b: &mut Bencher) {
+    let block = mock_block(50_000).encode_fixed().unwrap();
+
+    b.iter(|| {
+        Block::decode_fixed(block.clone()).unwrap();
+    });
+}

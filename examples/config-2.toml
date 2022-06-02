@@ -1,0 +1,39 @@
+data_path = "./devtools/chain/data/2"
+privkey = "0x8dfbd3c689308d29c058cce163984a2ae8d5fc5191ce6b1e18bd1d7b95a8c632"
+
+[network]
+listening_address = "0.0.0.0:1338"
+rpc_timeout = 10
+
+[[network.bootstraps]]
+peer_id = "QmTEJkB5QKWsEq37huryZZfVvqBKb54sHnKn9TQcA6j3n9"
+address = "127.0.0.1:1337" # Replace it with your IP
+
+[graphql]
+graphiql_uri = "/graphiql"
+listening_address = "0.0.0.0:8001"
+graphql_uri = "/graphql"
+workers = 0 # if 0, uses number of available logical cpu as threads count.
+maxconn = 25000
+max_payload_size = 1048576
+
+[executor]
+light = false
+triedb_cache_size = 2000
+
+[mempool]
+broadcast_txs_size = 200
+broadcast_txs_interval = 200
+pool_size = 1000
+
+[logger]
+metrics = false
+log_path = "./devtools/chain/logs/2"
+log_to_console = true
+filter = "info"
+log_to_file = true
+console_show_file_and_line = false
+file_size_limit = 1073741824 # 1 GiB
+
+[rocksdb]
+max_open_files = 64

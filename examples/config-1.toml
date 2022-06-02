@@ -1,0 +1,35 @@
+data_path = "./devtools/chain/data/1"
+privkey = "0x5ec982173d54d830b6789cbbbe43eaa2853a5ff752d1ebc1b266cf9790314f8a"
+
+[network]
+listening_address = "0.0.0.0:1337"
+rpc_timeout = 10
+
+[graphql]
+graphiql_uri = "/graphiql"
+listening_address = "0.0.0.0:8000"
+graphql_uri = "/graphql"
+workers = 0 # if 0, uses number of available logical cpu as threads count.
+maxconn = 25000
+max_payload_size = 1048576
+
+[executor]
+light = false
+triedb_cache_size = 2000
+
+[mempool]
+broadcast_txs_size = 200
+broadcast_txs_interval = 200
+pool_size = 1000
+
+[logger]
+metrics = false
+log_path = "./devtools/chain/logs/1"
+log_to_console = true
+filter = "info"
+log_to_file = true
+console_show_file_and_line = false
+file_size_limit = 1073741824 # 1 GiB
+
+[rocksdb]
+max_open_files = 64

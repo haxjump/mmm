@@ -1,0 +1,31 @@
+[package]
+name = "core-api"
+version = "0.2.1"
+authors = ["Muta Dev <muta@nervos.org>"]
+edition = "2018"
+repository = "https://github.com/nervosnetwork/muta"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+protocol = { path = "../../protocol", package = "muta-protocol" }
+common-apm = { path = "../../common/apm" }
+common-crypto = { path = "../../common/crypto" }
+
+juniper = { git = "https://github.com/graphql-rust/juniper", rev = "eff086a", features = ["async"] }
+juniper_codegen = "0.14"
+async-trait = "0.1"
+hex = "0.4"
+futures = "0.3"
+derive_more = "0.15"
+cita_trie = "2.0"
+bytes = "1.1"
+actix-web = { version = "2.0.0", features = ["openssl"] }
+serde_json = "1.0"
+lazy_static = "1.4"
+num_cpus = "1.12"
+log = "0.4"
+openssl = "0.10"
+pprof = { version = "0.3", features = ["flamegraph", "protobuf"] }
+url = { version = "2.1" }
+tokio = { version = "0.2", features = [ "time" ] }

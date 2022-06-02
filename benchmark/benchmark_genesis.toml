@@ -1,0 +1,47 @@
+timestamp = 0
+prevhash = "0x44915be5b6c20b0678cf05fcddbbaa832e25d7e6ac538784cd5c24de00d47472"
+
+[[services]]
+name = "asset"
+payload = '''
+{
+   "id": "0xf56924db538e77bb5951eb5ff0d02b88983c49c45eea30e8ae3e7234b311436c",
+   "name": "MutaToken",
+   "symbol": "MT",
+   "supply": 320000011,
+   "issuer": "muta14e0lmgck835vm2dfm0w3ckv6svmez8fdgdl705"
+}
+'''
+
+# private key of this admin:
+# 5ec982173d54d830b6789cbbbe43eaa2853a5ff752d1ebc1b266cf9790314f8a
+[[services]]
+name = "governance"
+payload = '''
+{
+   "info": {
+       "admin": "muta14e0lmgck835vm2dfm0w3ckv6svmez8fdgdl705",
+       "tx_failure_fee": 10,
+       "tx_floor_fee": 20,
+       "profit_deduct_rate_per_million": 3,
+        "tx_fee_discount": [
+            {
+                "threshold": 1000,
+                "discount_percent": 90
+            },
+            {
+                "threshold": 10000,
+                "discount_percent": 70
+            },
+            {
+                "threshold": 100000,
+                "discount_percent": 50
+            }
+        ],
+       "miner_benefit": 10
+   },
+   "tx_fee_inlet_address": "muta15a8a9ksxe3hhjpw3l7wz7ry778qg8h9wz8y35p",
+   "miner_profit_outlet_address": "muta14e0lmgck835vm2dfm0w3ckv6svmez8fdgdl705",
+   "miner_charge_map": []
+}
+'''

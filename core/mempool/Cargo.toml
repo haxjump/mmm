@@ -1,0 +1,36 @@
+[package]
+name = "core-mempool"
+version = "0.2.1"
+authors = ["Muta Dev <muta@nervos.org>"]
+edition = "2018"
+repository = "https://github.com/nervosnetwork/muta"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+protocol = { path = "../../protocol", package = "muta-protocol" }
+common-apm = { path = "../../common/apm" }
+common-crypto = { path = "../../common/crypto" }
+core-network = { path = "../network" }
+
+
+futures = { version = "0.3", features = [ "async-await" ] }
+crossbeam-queue = "0.2"
+derive_more = "0.99"
+async-trait = "0.1"
+num-traits = "0.2"
+bytes = "1.1"
+rand = "0.7"
+hex = "0.4"
+serde_derive = "1.0"
+serde_json = "1.0"
+serde = "1.0"
+futures-timer = "3.0"
+log = "0.4"
+tokio = { version = "0.2", features = ["macros", "rt-core", "sync", "blocking"]}
+muta-apm = "0.1.0-alpha.7"
+cita_trie = "2.0"
+
+[dev-dependencies]
+chashmap = "2.2"
+parking_lot = "0.11"
